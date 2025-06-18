@@ -217,10 +217,6 @@ python manage.py test
    - Ensure virtual environment is activated
    - Check Django installation: `pip list | grep Django`
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -232,55 +228,5 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 📞 Support
 
 For questions or issues, please open an issue in the repository or contact the development team.
-
-## 📝 Data Migration File
-
-### cart/migrations/0002_populate_initial_products.py
-
-After creating the empty migration file, edit it with the following content:
-
-```python
-from django.db import migrations
-
-def populate_initial_products(apps, schema_editor):
-    Product = apps.get_model('cart', 'Product')
-
-    products_data = [
-        {"name": "Potatoes", "price_per_kg": 5.00, "stock_in_kg": 100.0},
-        {"name": "Carrots", "price_per_kg": 4.00, "stock_in_kg": 50.0},
-        {"name": "Onions", "price_per_kg": 2.00, "stock_in_kg": 75.0},
-    ]
-
-    for data in products_data:
-        Product.objects.get_or_create(
-            name=data["name"],
-            defaults={
-                "price_per_kg": data["price_per_kg"],
-                "stock_in_kg": data["stock_in_kg"]
-            }
-        )
-
-def reverse_populate_initial_products(apps, schema_editor):
-    Product = apps.get_model('cart', 'Product')
-    Product.objects.filter(
-        name__in=["Potatoes", "Carrots", "Onions"]
-    ).delete()
-
-class Migration(migrations.Migration):
-    dependencies = [
-        ('cart', '0001_initial'),
-    ]
-
-    operations = [
-        migrations.RunPython(
-            populate_initial_products,
-            reverse_populate_initial_products
-        ),
-    ]
-```
-
-This migration will automatically populate your database with the default products when you run `python manage.py migrate`.
-
----
 
 **Happy Shopping! 🛒**
