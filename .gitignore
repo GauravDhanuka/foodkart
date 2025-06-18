@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# OS X files
+.DS_Store
+
+# Virtual environment
+venv/
+env/
+
+# Database
+db.sqlite3
+
+
+# Collected Staticfiles
+staticfiles/

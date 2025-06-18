@@ -1,0 +1,85 @@
+{% load static %} {% load cart_extras %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'cart/css/style.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Your Shopping Cart</h1>
+      {% if messages %} {% for message in messages %}
+      <div class="messages {{ message.tags|default:'info' }}">
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %}
+
+      <form method="post" action="{% url 'cart_view' %}">
+        {% csrf_token %}
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Quantity (kg)</th>
+              <th>Price (per kg in AED)</th>
+              <th>Line Price (AED)</th>
+              <th>Current Stock (kg)</th>
+            </tr>
+          </thead>
+          <tbody id="cart-body">
+            {% for item in cart_items %}
+            <tr
+              data-product-name="{{ item.name }}"
+              data-price-per-kg="{{ item.price_per_kg }}"
+            >
+              <td data-label="Product Name">{{ item.name }}</td>
+              <td data-label="Quantity (kg)">
+                <input
+                  type="number"
+                  name="{{ item.name|lower }}_qty"
+                  value="{{ item.quantity|floatformat:2 }}"
+                  min="0"
+                  step="any"
+                  class="quantity-input"
+                  oninput="updateCart()"
+                  required
+                />
+              </td>
+              <td data-label="Price (per kg in AED)">
+                AED
+                <span class="price-per-kg"
+                  >{{ item.price_per_kg|floatformat:2 }}</span
+                >
+              </td>
+              <td data-label="Line Price (AED)" class="line-price">
+                AED {{ item.quantity|mul:item.price_per_kg|floatformat:2 }}
+              </td>
+              <td data-label="Current Stock (kg)">
+                {{ item.current_stock_in_kg|floatformat:2 }} kg
+              </td>
+            </tr>
+            {% endfor %}
+            <tr class="total-row">
+              <td colspan="3" data-label="Total">Total</td>
+              <td data-label="Total Price" id="cart-total">AED 0.00</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="buy-button-container">
+          <button type="submit" class="buy-button">Buy Now</button>
+        </div>
+      </form>
+    </div>
+
+    {# Link to external JavaScript file #}
+    <script src="{% static 'cart/js/cart.js' %}"></script>
+  </body>
+</html>

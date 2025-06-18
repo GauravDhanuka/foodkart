@@ -1,0 +1,231 @@
+/* Basic Reset & Font */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 800px;
+    margin: 20px 0;
+}
+
+h1 {
+    font-size: 2.2em;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.messages {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Styling for different message types */
+.messages.error {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+}
+
+.messages.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #2e7d32;
+}
+
+.messages.info {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #1976d2;
+}
+
+.messages li {
+    list-style: none;
+    margin: 5px 0;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.cart-table th, .cart-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cart-table th {
+    background-color: #f8f8f8;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.cart-table td {
+    font-size: 1em;
+    color: #444;
+}
+
+.cart-table tr:last-child td {
+    border-bottom: none;
+}
+
+.quantity-input {
+    width: 80px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1em;
+    -moz-appearance: textfield; /* Hide arrows for Firefox */
+}
+
+/* Hide arrows for Chrome, Safari, Edge */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.total-row {
+    font-weight: 700;
+    font-size: 1.2em;
+    background-color: #f0f0f0;
+}
+
+.total-row td {
+    border-top: 2px solid #bbb;
+}
+
+.buy-button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.buy-button {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.buy-button:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.buy-button:active {
+    background-color: #1e7e34;
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .cart-table, .cart-table tbody, .cart-table tr, .cart-table td, .cart-table th {
+        display: block;
+    }
+
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table tr {
+        margin-bottom: 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .cart-table td {
+        text-align: right;
+        position: relative;
+        padding-left: 50%;
+        border-bottom: 1px dashed #eee;
+    }
+
+    .cart-table td:last-child {
+        border-bottom: none;
+    }
+
+    .cart-table td::before {
+        content: attr(data-label); /* Use data-label for content */
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 30px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 600;
+        color: #555;
+    }
+
+    .quantity-input {
+        width: 100px;
+    }
+
+    .total-row td {
+        border-top: none;
+    }
+    
+    .total-row td::before {
+        content: attr(data-label);
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .quantity-input {
+        width: 70px;
+    }
+
+    .buy-button {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+}
