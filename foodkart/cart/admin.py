@@ -13,13 +13,20 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('stock_in_kg',)
     ordering = ('name',)
 
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    readonly_fields = ('product', 'quantity', 'price_per_kg')
+    can_delete = False
+    extra = 0
+    max_num = 0
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'created_at', 'total')
     date_hierarchy = 'created_at'
     ordering = ('-created_at',)
     readonly_fields = ('created_at', 'total')
-    inlines = []
+    inlines = [OrderItemInline]
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
