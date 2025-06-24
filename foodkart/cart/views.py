@@ -104,6 +104,14 @@ def cart_view(request: HttpRequest):
             order = Order.objects.create(total=order_total)
             for product, qty, price_per_kg in order_items:
                 OrderItem.objects.create(order=order, product=product, quantity=qty, price_per_kg=price_per_kg)
+            
+            # After successful purchase, we refresh the displayed stock
+            for cart_item in cart_items:
+                try:
+                    product_in_db = Product.objects.get(name=cart_item['name'])
+                    cart_item['current_stock_in_kg'] = product_in_db.stock_in_kg
+                except Product.DoesNotExist:
+                    cart_item['current_stock_in_kg'] = Decimal(0)
         else:
             # If there are any validation errors, add them to messages
             messages.extend(validation_errors)
