@@ -40,7 +40,7 @@ def reverse_initial_products(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0001_initial'),
+        ('cart', '0001_initial'),
     ]
 
     operations = [
