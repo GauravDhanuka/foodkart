@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from decimal import Decimal
-from .models import Product
+from .models import Product, Order, OrderItem
 from .constants import DEFAULT_CART_ITEMS
 
 # Create your views here.
@@ -85,7 +85,25 @@ def cart_view(request: HttpRequest):
         if order_successful and not validation_errors:
             # If all checks pass, order is successful
             messages.append('Order confirmed! Thank you for your purchase.')
-            # In a real application, we would decrement stock here, create an order record etc.
+            # Decrement stock and create order record
+            order_total = Decimal(0)
+            order_items = []
+            for item in DEFAULT_CART_ITEMS:
+                product_name = item['name']
+                submitted_qty = updated_cart_quantities.get(product_name, Decimal(0))
+                if submitted_qty > 0:
+                    product_db = Product.objects.get(name=product_name)
+                    # Deduct stock
+                    product_db.stock_in_kg -= submitted_qty
+                    product_db.save()
+                    # Calculate line total
+                    line_total = submitted_qty * product_db.price_per_kg
+                    order_total += line_total
+                    order_items.append((product_db, submitted_qty, product_db.price_per_kg))
+            # Create order
+            order = Order.objects.create(total=order_total)
+            for product, qty, price_per_kg in order_items:
+                OrderItem.objects.create(order=order, product=product, quantity=qty, price_per_kg=price_per_kg)
         else:
             # If there are any validation errors, add them to messages
             messages.extend(validation_errors)
